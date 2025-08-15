@@ -30,12 +30,18 @@
 #include <sys/time.h>
 #include <sys/times.h>
 
+
+/* Variables */
+extern int __io_putchar(int ch) __attribute__((weak));
+extern int __io_getchar(void) __attribute__((weak));
+
 //Debug Exception and Monitor Control Register base address
 #define DEMCR        			*((volatile uint32_t*) 0xE000EDFCU )
 
 /* ITM register addresses */
 #define ITM_STIMULUS_PORT0   	*((volatile uint32_t*) 0xE0000000 )
 #define ITM_TRACE_EN          	*((volatile uint32_t*) 0xE0000E00 )
+
 
 void ITM_SendChar(uint8_t ch)
 {
@@ -52,10 +58,6 @@ void ITM_SendChar(uint8_t ch)
 	//Write to ITM stimulus port0
 	ITM_STIMULUS_PORT0 = ch;
 }
-/* Variables */
-extern int __io_putchar(int ch) __attribute__((weak));
-extern int __io_getchar(void) __attribute__((weak));
-
 
 char *__env[1] = { 0 };
 char **environ = __env;
@@ -106,7 +108,7 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
   for (DataIdx = 0; DataIdx < len; DataIdx++)
   {
     //__io_putchar(*ptr++);
-    ITM_SendChar(*ptr++);
+	  ITM_SendChar(*ptr++);
   }
   return len;
 }

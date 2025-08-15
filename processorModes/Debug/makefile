@@ -33,34 +33,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := helloworld
+BUILD_ARTIFACT_NAME := processorModes
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-helloworld.elf \
+processorModes.elf \
 
 MAP_FILES += \
-helloworld.map \
+processorModes.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-helloworld.list \
+processorModes.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: helloworld.elf secondary-outputs
+main-build: processorModes.elf secondary-outputs
 
 # Tool invocations
-helloworld.elf helloworld.map: $(OBJS) $(USER_OBJS) /Users/sarasattari/Desktop/embedded\ C/my_workspace/helloworld/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "helloworld.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/sarasattari/Desktop/embedded C/my_workspace/helloworld/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="helloworld.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+processorModes.elf processorModes.map: $(OBJS) $(USER_OBJS) /Users/sarasattari/Desktop/embedded\ C/my_workspace/GIT/Embedded-C-Learning-Journey/processorModes/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "processorModes.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/sarasattari/Desktop/embedded C/my_workspace/GIT/Embedded-C-Learning-Journey/processorModes/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="processorModes.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -69,14 +69,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-helloworld.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "helloworld.list"
+processorModes.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "processorModes.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout helloworld.elf helloworld.list helloworld.map
+	-$(RM) default.size.stdout processorModes.elf processorModes.list processorModes.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

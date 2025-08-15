@@ -26,9 +26,9 @@
 int main(void)
 {
 	printf("Hello world");
-    /* Loop forever */
-	for(int i=0;i<10;i++)
-	{
-		printf("Hi\n");
-	}
+	    /* Loop forever */
+		for(int i=0;i<10;i++)
+		{
+			printf("HiMyfriend\n");
+		}
 }
